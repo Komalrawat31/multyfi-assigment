@@ -1,0 +1,82 @@
+{
+	"info": {
+		"_postman_id": "18cfc3c5-7a2c-4d2f-9020-1389a0079f18",
+		"name": "multyfi-env",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27527907"
+	},
+	"item": [
+		{
+			"name": "multyfi",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Basic checks\r",
+							"pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+							"pm.test(\"Response is JSON\", () => pm.response.to.be.json);\r",
+							"\r",
+							"// Parse JSON\r",
+							"const body = pm.response.json();\r",
+							"\r",
+							"// Non-empty list check (assume top-level 'recommendations' array or response is array)\r",
+							"pm.test(\"Response is non-empty array or contains recommendations\", () => {\r",
+							"    pm.expect(Array.isArray(body) ? body.length : (body.recommendations || []).length).to.be.above(0);\r",
+							"});\r",
+							"\r",
+							"// Example schema check (adjust fields to your actual schema)\r",
+							"const schema = {\r",
+							"  \"type\": \"array\",\r",
+							"  \"minItems\": 1,\r",
+							"  \"items\": {\r",
+							"    \"type\": \"object\",\r",
+							"    \"required\": [\"id\",\"symbol\",\"name\",\"recommendationDate\"],\r",
+							"    \"properties\": {\r",
+							"      \"id\": {\"type\": \"string\"},\r",
+							"      \"symbol\": {\"type\": \"string\"},\r",
+							"      \"name\": {\"type\": \"string\"},\r",
+							"      \"recommendationDate\": {\"type\": \"string\", \"format\": \"date-time\"}\r",
+							"    }\r",
+							"  }\r",
+							"};\r",
+							"\r",
+							"// Use tv4 or ajv available in Postman runtime\r",
+							"pm.test('Response matches schema', () => {\r",
+							"  const valid = tv4.validate(body, schema);\r",
+							"  if (!valid) {\r",
+							"    console.log(tv4.error);\r",
+							"  }\r",
+							"  pm.expect(valid, 'schema valid').to.be.true;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status is 401 for invalid token\", () => pm.response.to.have.status(401));\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://multyfi.com/api/multibaggers/historical",
+					"protocol": "https",
+					"host": [
+						"multyfi",
+						"com"
+					],
+					"path": [
+						"api",
+						"multibaggers",
+						"historical"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
