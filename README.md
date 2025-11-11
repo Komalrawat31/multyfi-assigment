@@ -1,4 +1,5 @@
-MultyFi Automation Test Suite
+1. MultyFi Automation Test Suite
+   
 Overview
 
 This project contains Selenium WebDriver automated tests for the MultyFi web application. The test suite covers:
@@ -87,7 +88,7 @@ Logout
 
 
 
-API Testing Postman +Newman
+2. API Testing Postman +Newman
 Running Tests with Newman
 
 Export your Postman collection as MultyFi_API_Tests.postman_collection.json
@@ -110,7 +111,7 @@ newman run MultyFi_API_Tests.postman_collection.json -r cli,html,json
 
 
 
-Performance Testing
+3. Performance Testing
 MultyFi Performance Testing
 Overview
 
@@ -153,7 +154,7 @@ k6 run historical_multibaggers_test.js
 
 
 
-Bug Report
+4. Bug Report
 Overview
 
 This template helps testers log bugs clearly and consistently for developers to reproduce and fix.
